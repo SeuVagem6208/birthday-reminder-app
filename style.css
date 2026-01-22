@@ -1,16 +1,20 @@
+/* Estilo geral */
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 20px;
   background: #f2f2f2;
+  color: #333;
 }
 
-h1 {
+/* Cabeçalho */
+header h1 {
   text-align: center;
   color: #6a0dad;
   margin-bottom: 20px;
 }
 
+/* Formulário */
 form {
   display: flex;
   flex-direction: column;
@@ -30,10 +34,17 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
   background-color: #5a0099;
+}
+
+/* Lista de aniversários */
+section h2 {
+  margin-bottom: 10px;
+  color: #444;
 }
 
 ul {
@@ -47,4 +58,13 @@ li {
   margin-bottom: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-left: 8px solid #ccc;
+}
+
+/* Rodapé */
+footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
 }
