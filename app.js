@@ -1,86 +1,81 @@
-// Carregar aniversários salvos
 let aniversarios = JSON.parse(localStorage.getItem("aniversarios")) || [];
-let editIndex = null;
+let grupos = ["Todos","Família","Amigos","Trabalho"];
+let temaAtual = 0;
+const temas = [
+  {bg:"#f2f2f2", text:"#333", header:"#6a0dad", headerText:"#fff", chip:"#ddd", monthBg:"#eee", card:"#fff", accent:"#6a0dad"},
+  {bg:"#111", text:"#eee", header:"#333", headerText:"#fff", chip:"#444", monthBg:"#222", card:"#222", accent:"#ff4d4d"},
+  // mais 3 paletas...
+];
 
-// Salvar no localStorage
-function salvar() {
-  localStorage.setItem("aniversarios", JSON.stringify(aniversarios));
-}
+function salvar() { localStorage.setItem("aniversarios", JSON.stringify(aniversarios)); }
 
-// Mostrar lista
 function mostrar() {
   const lista = document.getElementById("lista");
   lista.innerHTML = "";
-
-  aniversarios.forEach((a, i) => {
-    let cor = a.importancia === "Alta" ? "#ff4d4d" : a.importancia === "Média" ? "#ffcc00" : "#66cc66";
-
-    lista.innerHTML += `
-      <li style="border-left: 8px solid ${cor}">
-        <strong>${a.nome}</strong> - ${a.data} <br>
-        Grupo: ${a.grupo} | Importância: ${a.importancia}
-        <br>
-        <button onclick="editar(${i})">Editar</button>
-        <button onclick="remover(${i})">Excluir</button>
-      </li>
-    `;
+  let ordenados = [...aniversarios].sort((a,b)=> new Date(a.data)-new Date(b.data));
+  let mesAtual = "";
+  ordenados.forEach((a,i)=>{
+    let data = new Date(a.data);
+    let mes = data.toLocaleString("pt-BR",{month:"long"});
+    if(mes!==mesAtual){
+      lista.innerHTML += `<div class="mes">${mes}</div>`;
+      mesAtual = mes;
+    }
+    let dias = calcularDias(a.data);
+    lista.innerHTML += `<li onclick="abrirPopup(${i})">${a.apelido} - faltam ${dias} dias</li>`;
   });
 }
 
-// Remover
-function remover(i) {
-  aniversarios.splice(i, 1);
-  salvar();
-  mostrar();
+function calcularDias(data){
+  let hoje = new Date();
+  let aniversario = new Date(data);
+  aniversario.setFullYear(hoje.getFullYear());
+  if(aniversario<hoje) aniversario.setFullYear(hoje.getFullYear()+1);
+  let diff = aniversario-hoje;
+  return Math.floor(diff/(1000*60*60*24));
 }
 
-// Editar
-function editar(i) {
-  const a = aniversarios[i];
-  document.getElementById("nome").value = a.nome;
-  document.getElementById("data").value = a.data;
-  document.getElementById("grupo").value = a.grupo;
-  document.getElementById("importancia").value = a.importancia;
-  editIndex = i;
+function aplicarTema(){
+  let t = temas[temaAtual];
+  for(let key in t){ document.documentElement.style.setProperty(`--${key}`,t[key]); }
 }
 
-// Adicionar ou atualizar
-document.getElementById("form").addEventListener("submit", e => {
-  e.preventDefault();
-  let nome = document.getElementById("nome").value;
-  let data = document.getElementById("data").value;
-  let grupo = document.getElementById("grupo").value;
-  let importancia = document.getElementById("importancia").value;
-
-  if (editIndex !== null) {
-    aniversarios[editIndex] = {nome, data, grupo, importancia};
-    editIndex = null;
-  } else {
-    aniversarios.push({nome, data, grupo, importancia});
-  }
-
-  salvar();
-  mostrar();
-  document.getElementById("form").reset();
+document.getElementById("theme-btn").addEventListener("click",()=>{
+  temaAtual = (temaAtual+1)%temas.length;
+  aplicarTema();
 });
 
-// Notificações de aniversários do dia
-function verificarAniversariosHoje() {
-  let hoje = new Date().toISOString().slice(5, 10); // formato MM-DD
-  aniversarios.forEach(a => {
-    if (a.data.slice(5, 10) === hoje) {
-      if (Notification.permission === "granted") {
-        new Notification(`🎉 Hoje é aniversário de ${a.nome}!`);
-      }
-    }
-  });
+function abrirPopup(i){
+  let a = aniversarios[i];
+  document.getElementById("apelido").textContent = a.apelido;
+  document.getElementById("nome").textContent = a.nome;
+  document.getElementById("grupos").textContent = "Grupo: "+a.grupo;
+  let dias = calcularDias(a.data);
+  document.getElementById("faltam").textContent = `Faltam ${dias} dias`;
+  document.getElementById("popup").classList.remove("hidden");
 }
 
-// Pedir permissão para notificações
-if (Notification.permission !== "granted") {
-  Notification.requestPermission();
-}
+document.getElementById("close-popup").addEventListener("click",()=>{
+  document.getElementById("popup").classList.add("hidden");
+});
 
-// Inicializar
+aplicarTema();
 mostrar();
-verificarAniversariosHoje();
+
+let temaAtual = 0;
+const temas = [
+  // Tema 1: Claro padrão
+  {bg:"#f2f2f2", text:"#333", header:"#6a0dad", headerText:"#fff", chip:"#ddd", monthBg:"#eee", card:"#fff", accent:"#6a0dad"},
+  
+  // Tema 2: Escuro neutro
+  {bg:"#111", text:"#eee", header:"#333", headerText:"#fff", chip:"#444", monthBg:"#222", card:"#222", accent:"#ff4d4d"},
+  
+  // Tema 3: Claro fofinho (rosa claro + preto)
+  {bg:"#fff0f6", text:"#333", header:"#ff69b4", headerText:"#fff", chip:"#ffe6f0", monthBg:"#ffd6eb", card:"#fff", accent:"#ff69b4"},
+  
+  // Tema 4: Escuro elegante (azul escuro + branco)
+  {bg:"#0a0a2a", text:"#eee", header:"#1a1a4d", headerText:"#fff", chip:"#333366", monthBg:"#222244", card:"#1a1a4d", accent:"#3399ff"},
+  
+  // Tema 5: Claro minimalista (cinza + azul suave)
+  {bg:"#f9f9f9", text:"#222", header:"#3399ff", headerText:"#fff", chip:"#cce6ff", monthBg:"#e6f2ff", card:"#fff", accent:"#3399ff"}
+];

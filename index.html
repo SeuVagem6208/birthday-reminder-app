@@ -5,51 +5,39 @@
   <title>Lembrete de Aniversários</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- JS -->
   <script src="app.js" defer></script>
-
-  <!-- Manifest para PWA -->
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header>
     <h1>🎂 Lembrete de Aniversários</h1>
+    <button id="theme-btn">🎨 Personalizar</button>
   </header>
 
-  <!-- Formulário -->
+  <nav id="grupos-bar"></nav>
+
   <main>
-    <form id="form">
-      <input type="text" id="nome" placeholder="Nome" required>
-      <input type="date" id="data" required>
-
-      <select id="grupo">
-        <option value="Família">Família</option>
-        <option value="Amigos">Amigos</option>
-        <option value="Trabalho">Trabalho</option>
-        <option value="Outros">Outros</option>
-      </select>
-
-      <select id="importancia">
-        <option value="Alta">Importância Alta</option>
-        <option value="Média">Importância Média</option>
-        <option value="Baixa">Importância Baixa</option>
-      </select>
-
-      <button type="submit">Adicionar</button>
-    </form>
-
-    <!-- Lista de aniversários -->
-    <section>
-      <h2>Lista de Aniversários</h2>
-      <ul id="lista"></ul>
+    <section id="lista-container">
+      <h2>Todos os Aniversários</h2>
+      <div id="lista"></div>
     </section>
   </main>
 
-  <footer>
-    <p>📱 Instale este app no seu celular para não esquecer nenhum aniversário!</p>
-  </footer>
+  <button id="add-btn">➕</button>
+
+  <!-- Popup da pessoa -->
+  <div id="popup" class="hidden">
+    <div class="popup-content">
+      <span id="close-popup">✖</span>
+      <img id="foto" src="default.png" alt="Foto">
+      <h2 id="apelido"></h2>
+      <p id="nome"></p>
+      <p id="grupos"></p>
+      <p id="faltam"></p>
+      <button id="edit-btn">✏️ Editar</button>
+      <button id="delete-btn">🗑️ Excluir</button>
+    </div>
+  </div>
 </body>
 </html>

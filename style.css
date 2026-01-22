@@ -1,70 +1,85 @@
-/* Estilo geral */
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 20px;
-  background: #f2f2f2;
-  color: #333;
-}
-
-/* Cabeçalho */
-header h1 {
-  text-align: center;
-  color: #6a0dad;
-  margin-bottom: 20px;
-}
-
-/* Formulário */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-input, select, button {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-button {
-  background-color: #6a0dad;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #5a0099;
-}
-
-/* Lista de aniversários */
-section h2 {
-  margin-bottom: 10px;
-  color: #444;
-}
-
-ul {
-  list-style: none;
   padding: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: var(--header);
+  color: var(--header-text);
+}
+
+#theme-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+nav#grupos-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+nav#grupos-bar div {
+  background: var(--chip);
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#lista-container {
+  padding: 20px;
+}
+
+.mes {
+  background: var(--month-bg);
+  padding: 5px;
+  margin-top: 15px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 li {
-  background: white;
-  padding: 12px;
-  margin-bottom: 10px;
+  background: var(--card);
+  margin: 5px 0;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border-left: 8px solid #ccc;
 }
 
-/* Rodapé */
-footer {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 14px;
-  color: #666;
+#add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#popup.hidden { display: none; }
+#popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+.popup-content {
+  background: var(--card);
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
 }
