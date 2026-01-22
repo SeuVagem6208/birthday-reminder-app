@@ -30,3 +30,19 @@ document.getElementById("form").addEventListener("submit", e => {
 });
 
 mostrar();
+function verificarAniversariosHoje() {
+  let hoje = new Date().toISOString().slice(5, 10); // formato MM-DD
+  aniversarios.forEach(a => {
+    if (a.data.slice(5, 10) === hoje) {
+      if (Notification.permission === "granted") {
+        new Notification(`🎉 Hoje é aniversário de ${a.nome}!`);
+      }
+    }
+  });
+}
+
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+
+verificarAniversariosHoje();

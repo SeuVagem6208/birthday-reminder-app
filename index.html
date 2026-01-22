@@ -3,22 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Lembrete de Aniversários</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- JS -->
   <script src="app.js" defer></script>
+
+  <!-- Manifest para PWA -->
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <h1>🎂 Lembrete de Aniversários</h1>
-  <form id="form">
-    <input type="text" id="nome" placeholder="Nome" required>
-    <input type="date" id="data" required>
-    <select id="grupo">
-      <option>Família</option>
-      <option>Amigos</option>
-      <option>Trabalho</option>
-    </select>
-    <button type="submit">Adicionar</button>
-  </form>
-  <ul id="lista"></ul>
+  <header>
+    <h1>🎂 Lembrete de Aniversários</h1>
+  </header>
+
+  <!-- Formulário -->
+  <main>
+    <form id="form">
+      <input type="text" id="nome" placeholder="Nome" required>
+      <input type="date" id="data" required>
+
+      <select id="grupo">
+        <option value="Família">Família</option>
+        <option value="Amigos">Amigos</option>
+        <option value="Trabalho">Trabalho</option>
+        <option value="Outros">Outros</option>
+      </select>
+
+      <select id="importancia">
+        <option value="Alta">Importância Alta</option>
+        <option value="Média">Importância Média</option>
+        <option value="Baixa">Importância Baixa</option>
+      </select>
+
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <!-- Lista de aniversários -->
+    <section>
+      <h2>Lista de Aniversários</h2>
+      <ul id="lista"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>📱 Instale este app no seu celular para não esquecer nenhum aniversário!</p>
+  </footer>
 </body>
 </html>
