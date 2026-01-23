@@ -1,38 +1,29 @@
+:root {
+  --bg: #629293;
+  --header: #4f7d7e;
+  --card: #8eb0b1;
+  --text-dark: #000;
+  --text-light: #fff;
+}
+
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Schoolbell', 'Comic Sans MS', cursive;
+  background-color: var(--bg);
   margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--text);
+  color: var(--text-dark);
 }
 
 header {
+  background-color: var(--header);
+  color: var(--text-light);
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background: var(--header);
-  color: var(--header-text);
 }
 
-#theme-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-nav#grupos-bar {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 10px;
-}
-
-nav#grupos-bar div {
-  background: var(--chip);
-  padding: 8px 12px;
-  border-radius: 20px;
-  cursor: pointer;
+#logo-header {
+  height: 50px;
 }
 
 #lista-container {
@@ -40,46 +31,44 @@ nav#grupos-bar div {
 }
 
 .mes {
-  background: var(--month-bg);
+  background-color: var(--header);
+  color: var(--text-light);
   padding: 5px;
-  margin-top: 15px;
-  border-radius: 8px;
-  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
-li {
-  background: var(--card);
-  margin: 5px 0;
+.card {
+  background-color: var(--card);
+  color: var(--text-dark);
   padding: 10px;
+  margin: 5px 0;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 #add-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: var(--accent);
-  color: white;
+  background: none;
   border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
-  cursor: pointer;
 }
 
-#popup.hidden { display: none; }
-#popup {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+#add-btn img {
+  width: 64px;
+  height: 64px;
 }
-.popup-content {
-  background: var(--card);
-  margin: 50px auto;
+
+#popup .popup-content {
+  background-color: var(--bg);
+  border-radius: 10px;
   padding: 20px;
-  border-radius: 12px;
-  width: 80%;
+  color: var(--text-dark);
+}
+
+#form-container {
+  background-color: var(--card);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
 }

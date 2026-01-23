@@ -2,42 +2,55 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Lembrete de Aniversários</title>
+  <title>Calendário de Aniversários</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Fonte Schoolbell -->
+  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1>🎂 Lembrete de Aniversários</h1>
-    <button id="theme-btn">🎨 Personalizar</button>
+    <img src="logo-header.png" alt="Logo" id="logo-header">
+    <h1>Calendário de Aniversários</h1>
+    <button id="theme-btn">🎨 Trocar Tema</button>
   </header>
 
   <nav id="grupos-bar"></nav>
 
   <main>
     <section id="lista-container">
-      <h2>Todos os Aniversários</h2>
+      <h2>Lista de Aniversários</h2>
       <div id="lista"></div>
     </section>
   </main>
 
-  <button id="add-btn">➕</button>
+  <button id="add-btn"><img src="icon-add.png" alt="Adicionar"></button>
 
   <!-- Popup da pessoa -->
   <div id="popup" class="hidden">
     <div class="popup-content">
       <span id="close-popup">✖</span>
-      <img id="foto" src="icon.png" alt="Foto">
       <h2 id="apelido"></h2>
       <p id="nome"></p>
       <p id="grupos"></p>
       <p id="faltam"></p>
-      <button id="edit-btn">✏️ Editar</button>
-      <button id="delete-btn">🗑️ Excluir</button>
+      <button id="edit-btn"><img src="icon-edit.png" alt="Editar"></button>
+      <button id="delete-btn"><img src="icon-delete.png" alt="Excluir"></button>
     </div>
+  </div>
+
+  <!-- Formulário de adicionar -->
+  <div id="form-container" class="hidden">
+    <h2>Adicionar Aniversariante</h2>
+    <input type="text" id="nome-input" placeholder="Nome completo">
+    <input type="text" id="apelido-input" placeholder="Apelido">
+    <input type="date" id="data-input">
+    <input type="text" id="grupo-input" placeholder="Grupo (ex: Amigos)">
+    <button id="save-btn">Salvar</button>
   </div>
 </body>
 </html>
