@@ -2,55 +2,89 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Calendário de Aniversários</title>
+  <title>Birthday Reminder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
   <link rel="manifest" href="manifest.json">
-
-  <!-- Fonte Schoolbell -->
   <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <img src="logo-header.png" alt="Logo" id="logo-header">
-    <h1>Calendário de Aniversários</h1>
-    <button id="theme-btn">🎨 Trocar Tema</button>
+    <img src="titulo.png" alt="Birthday Reminder" id="titulo-img">
+    <button id="config-btn"><img src="icon-config.png" alt="Configurações"></button>
   </header>
 
+  <!-- Sidebar -->
+  <aside id="sidebar" class="hidden">
+    <h2>Configurações</h2>
+    <div>
+      <h3>Temas</h3>
+      <ul id="temas-list">
+        <li data-tema="salmao">🍑 Salmão</li>
+        <li data-tema="maca">🍎 Maçã</li>
+        <li data-tema="ceu">☁️ Céu</li>
+        <li data-tema="folhas">🌿 Folhas</li>
+        <li data-tema="lavanda">💜 Lavanda</li>
+        <li data-tema="outono">🍂 Outono</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Grupos</h3>
+      <input type="text" id="novo-grupo" placeholder="Novo grupo">
+      <button id="add-grupo">Adicionar</button>
+      <ul id="grupos-list"></ul>
+    </div>
+    <div>
+      <h3>Idioma</h3>
+      <button id="lang-pt">Português</button>
+      <button id="lang-en">English</button>
+    </div>
+  </aside>
+
+  <!-- Barra de grupos -->
   <nav id="grupos-bar"></nav>
 
   <main>
     <section id="lista-container">
-      <h2>Lista de Aniversários</h2>
       <div id="lista"></div>
     </section>
   </main>
 
   <button id="add-btn"><img src="icon-add.png" alt="Adicionar"></button>
 
-  <!-- Popup da pessoa -->
+  <!-- Popup adicionar -->
+  <div id="form-popup" class="hidden">
+    <div class="popup-content">
+      <span id="close-form">✖</span>
+      <h2>Adicionar Aniversariante</h2>
+      <input type="text" id="nome-input" placeholder="Nome completo">
+      <input type="text" id="apelido-input" placeholder="Apelido">
+      <input type="date" id="data-input">
+      <select id="grupo-input"></select>
+      <select id="aviso-input">
+        <option value="30">30 dias antes</option>
+        <option value="7">7 dias antes</option>
+        <option value="1">1 dia antes</option>
+        <option value="0">Somente no dia</option>
+      </select>
+      <button id="save-btn">Salvar</button>
+    </div>
+  </div>
+
+  <!-- Popup pessoa -->
   <div id="popup" class="hidden">
     <div class="popup-content">
       <span id="close-popup">✖</span>
       <h2 id="apelido"></h2>
       <p id="nome"></p>
-      <p id="grupos"></p>
+      <p id="idade"></p>
+      <p id="grupo"></p>
       <p id="faltam"></p>
       <button id="edit-btn"><img src="icon-edit.png" alt="Editar"></button>
       <button id="delete-btn"><img src="icon-delete.png" alt="Excluir"></button>
     </div>
-  </div>
-
-  <!-- Formulário de adicionar -->
-  <div id="form-container" class="hidden">
-    <h2>Adicionar Aniversariante</h2>
-    <input type="text" id="nome-input" placeholder="Nome completo">
-    <input type="text" id="apelido-input" placeholder="Apelido">
-    <input type="date" id="data-input">
-    <input type="text" id="grupo-input" placeholder="Grupo (ex: Amigos)">
-    <button id="save-btn">Salvar</button>
   </div>
 </body>
 </html>

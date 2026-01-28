@@ -1,9 +1,8 @@
 :root {
-  --bg: #629293;
-  --header: #4f7d7e;
-  --card: #8eb0b1;
+  --bg: #f8f8f8;
+  --header: #ccc;
+  --card: #eee;
   --text-dark: #000;
-  --text-light: #fff;
 }
 
 body {
@@ -14,35 +13,48 @@ body {
 }
 
 header {
-  background-color: var(--header);
-  color: var(--text-light);
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  background-color: var(--header);
   padding: 10px;
 }
 
-#logo-header {
-  height: 50px;
+#titulo-img {
+  max-width: 80%;
+  height: auto;
 }
 
-#lista-container {
+#sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 250px;
+  height: 100%;
+  background: var(--card);
   padding: 20px;
+  overflow-y: auto;
 }
 
-.mes {
-  background-color: var(--header);
-  color: var(--text-light);
-  padding: 5px;
-  margin-top: 10px;
+.hidden { display: none; }
+
+#grupos-bar {
+  display: flex;
+  overflow-x: auto;
+  background: var(--card);
+  padding: 10px;
+}
+
+#grupos-bar div {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background: var(--header);
   border-radius: 5px;
 }
 
 .card {
   background-color: var(--card);
-  color: var(--text-dark);
+  margin: 5px;
   padding: 10px;
-  margin: 5px 0;
   border-radius: 8px;
 }
 
@@ -54,21 +66,19 @@ header {
   border: none;
 }
 
-#add-btn img {
-  width: 64px;
-  height: 64px;
+#form-popup, #popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#popup .popup-content {
-  background-color: var(--bg);
-  border-radius: 10px;
-  padding: 20px;
-  color: var(--text-dark);
-}
-
-#form-container {
-  background-color: var(--card);
+.popup-content {
+  background: var(--bg);
   padding: 20px;
   border-radius: 10px;
-  margin: 20px;
+  width: 300px;
 }
