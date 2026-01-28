@@ -1,7 +1,8 @@
 // Dados salvos
 let aniversarios = JSON.parse(localStorage.getItem("aniversarios")) || [];
-let grupos = JSON.parse(localStorage.getItem("grupos")) || ["Amigos", "Família"];
+let grupos = JSON.parse(localStorage.getItem("grupos")) || ["Todos"];
 let idioma = localStorage.getItem("idioma") || "pt";
+let editando = null;
 
 // Temas
 const temas = {
@@ -14,10 +15,7 @@ const temas = {
 };
 let temaAtual = localStorage.getItem("temaAtual") || "ceu";
 
-// Funções de persistência
-function salvar() {
-  localStorage.setItem("aniversarios", JSON.stringify(aniversarios));
-}
+function salvar(){ localStorage.setItem("aniversarios", JSON.stringify(aniversarios)); }
 function aplicarTema(){
   let t = temas[temaAtual];
   document.documentElement.style.setProperty("--bg", t.bg);
@@ -27,7 +25,7 @@ function aplicarTema(){
 }
 aplicarTema();
 
-// Sidebar toggle
+// Sidebar
 document.getElementById("config-btn").addEventListener("click",()=>{
   document.getElementById("sidebar").classList.toggle("hidden");
 });
@@ -40,62 +38,105 @@ document.querySelectorAll("#temas-list li").forEach(li=>{
   });
 });
 
-// Grupos
+// Grupos (limite de 5)
 function atualizarGrupos(){
   const bar = document.getElementById("grupos-bar");
   bar.innerHTML="";
   grupos.forEach(g=>{
     let div=document.createElement("div");
     div.textContent=g;
+    div.addEventListener("click",()=>mostrar(g));
     bar.appendChild(div);
   });
   const select=document.getElementById("grupo-input");
   select.innerHTML="";
   grupos.forEach(g=>{
-    let opt=document.createElement("option");
-    opt.value=g; opt.textContent=g;
-    select.appendChild(opt);
+    if(g!=="Todos"){ 
+      let opt=document.createElement("option");
+      opt.value=g; opt.textContent=g;
+      select.appendChild(opt);
+    }
   });
   localStorage.setItem("grupos",JSON.stringify(grupos));
 }
 document.getElementById("add-grupo").addEventListener("click",()=>{
   let novo=document.getElementById("novo-grupo").value;
-  if(novo){grupos.push(novo); atualizarGrupos();}
+  if(novo && !grupos.includes(novo) && grupos.length < 5){
+    grupos.push(novo); atualizarGrupos();
+  }
 });
 atualizarGrupos();
 
 // Idioma
 document.getElementById("lang-pt").addEventListener("click",()=>{
-  idioma="pt"; localStorage.setItem("idioma","pt"); mostrar();
+  idioma="pt"; localStorage.setItem("idioma","pt"); mostrar("Todos");
 });
 document.getElementById("lang-en").addEventListener("click",()=>{
-  idioma="en"; localStorage.setItem("idioma","en"); mostrar();
+  idioma="en"; localStorage.setItem("idioma","en"); mostrar("Todos");
 });
 
-// Adicionar pessoa
+// Abrir popup para adicionar
 document.getElementById("add-btn").addEventListener("click",()=>{
+  editando = null;
+  document.getElementById("form-titulo").textContent = "Adicionar Aniversariante";
+  document.getElementById("nome-input").value = "";
+  document.getElementById("apelido-input").value = "";
+  document.getElementById("data-input").value = "";
+  document.getElementById("grupo-input").value = "";
+  document.getElementById("aviso-input").value = "30";
+  document.getElementById("botoes-edicao").classList.add("hidden");
   document.getElementById("form-popup").classList.remove("hidden");
 });
-document.getElementById("close-form").addEventListener("click",()=>{
+
+// Fechar popup pelo X
+const closeBtn = document.getElementById("close-form");
+console.log("Botão X encontrado:", closeBtn); // teste no console
+
+closeBtn.addEventListener("click", () => {
+  console.log("Clique no X detectado"); // teste no console
   document.getElementById("form-popup").classList.add("hidden");
 });
+
+
+// Salvar (adicionar ou editar)
 document.getElementById("save-btn").addEventListener("click",()=>{
   let nome = document.getElementById("nome-input").value;
   let apelido = document.getElementById("apelido-input").value;
   let data = document.getElementById("data-input").value;
-  let grupo = document.getElementById("grupo-input").value;
+  let grupo = document.getElementById("grupo-input").value || "Todos";
   let aviso = document.getElementById("aviso-input").value;
-  aniversarios.push({nome,apelido,data,grupo,aviso});
+
+  if(editando){
+    editando.nome = nome;
+    editando.apelido = apelido;
+    editando.data = data;
+    editando.grupo = grupo;
+    editando.aviso = aviso;
+  } else {
+    aniversarios.push({nome,apelido,data,grupo,aviso});
+  }
+
   salvar();
-  mostrar();
+  mostrar("Todos");
   document.getElementById("form-popup").classList.add("hidden");
 });
 
+// Excluir
+document.getElementById("excluir-btn").addEventListener("click",()=>{
+  if(editando){
+    aniversarios = aniversarios.filter(p=>p!==editando);
+    salvar();
+    mostrar("Todos");
+    document.getElementById("form-popup").classList.add("hidden");
+  }
+});
+
 // Mostrar lista
-function mostrar(){
+function mostrar(filtro="Todos"){
   const lista = document.getElementById("lista");
   lista.innerHTML = "";
-  let ordenados = [...aniversarios].sort((a,b)=> new Date(a.data)-new Date(b.data));
+  let filtrados = filtro==="Todos" ? aniversarios : aniversarios.filter(a=>a.grupo===filtro);
+  let ordenados = [...filtrados].sort((a,b)=> new Date(a.data)-new Date(b.data));
   let meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   let agrupados = {};
   ordenados.forEach(a=>{
@@ -106,37 +147,34 @@ function mostrar(){
   });
   Object.keys(agrupados).sort((a,b)=>a-b).forEach(m=>{
     lista.innerHTML += `<div class="mes">${meses[m]}</div>`;
-    agrupados[m].forEach((a,i)=>{
+    agrupados[m].forEach((a)=>{
       let hoje=new Date();
       let aniversario=new Date(a.data);
       aniversario.setFullYear(hoje.getFullYear());
       if(aniversario<hoje) aniversario.setFullYear(hoje.getFullYear()+1);
       let dias=Math.floor((aniversario-hoje)/(1000*60*60*24));
       let texto = dias<=7 ? `Faltam ${dias} dias` : `Dia ${aniversario.getDate()}`;
-      lista.innerHTML += `<div class="card" onmousedown="abrirPopup(${i})">${a.apelido} - ${texto}</div>`;
+      let card=document.createElement("div");
+      card.className="card";
+      card.textContent=`${a.apelido} - ${texto}`;
+      card.addEventListener("mousedown",()=>abrirEdicao(a));
+      lista.appendChild(card);
     });
   });
 }
 
-// Popup pessoa
-function abrirPopup(i){
-  let a = aniversarios[i];
-  document.getElementById("apelido").textContent = a.apelido;
-  document.getElementById("nome").textContent = a.nome;
-  let idade = new Date().getFullYear() - new Date(a.data).getFullYear();
-  document.getElementById("idade").textContent = `Idade: ${idade}`;
-  document.getElementById("grupo").textContent = "Grupo: "+a.grupo;
-  let hoje=new Date();
-  let aniversario=new Date(a.data);
-  aniversario.setFullYear(hoje.getFullYear());
-  if(aniversario<hoje) aniversario.setFullYear(hoje.getFullYear()+1);
-  let dias=Math.floor((aniversario-hoje)/(1000*60*60*24));
-  document.getElementById("faltam").textContent = dias<=7 ? `Faltam ${dias} dias` : `Dia ${aniversario.getDate()}`;
-  document.getElementById("popup").classList.remove("hidden");
+// Abrir popup para editar
+function abrirEdicao(pessoa){
+  editando = pessoa;
+  document.getElementById("form-titulo").textContent = "Editar Aniversariante";
+  document.getElementById("nome-input").value = pessoa.nome;
+  document.getElementById("apelido-input").value = pessoa.apelido;
+  document.getElementById("data-input").value = pessoa.data;
+  document.getElementById("grupo-input").value = pessoa.grupo;
+  document.getElementById("aviso-input").value = pessoa.aviso;
+  document.getElementById("botoes-edicao").classList.remove("hidden");
+  document.getElementById("form-popup").classList.remove("hidden");
 }
-document.getElementById("close-popup").addEventListener("click",()=>{
-  document.getElementById("popup").classList.add("hidden");
-});
 
 // Inicialização
-mostrar();
+mostrar("Todos");

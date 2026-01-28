@@ -13,7 +13,7 @@
 <body>
   <header>
     <img src="titulo.png" alt="Birthday Reminder" id="titulo-img">
-    <button id="config-btn"><img src="icon-config.png" alt="Configurações"></button>
+    <button id="config-btn">⚙️</button>
   </header>
 
   <!-- Sidebar -->
@@ -44,7 +44,9 @@
   </aside>
 
   <!-- Barra de grupos -->
-  <nav id="grupos-bar"></nav>
+  <nav id="grupos-bar">
+    <div>Todos</div>
+  </nav>
 
   <main>
     <section id="lista-container">
@@ -52,13 +54,13 @@
     </section>
   </main>
 
-  <button id="add-btn"><img src="icon-add.png" alt="Adicionar"></button>
+  <button id="add-btn">➕</button>
 
-  <!-- Popup adicionar -->
+  <!-- Popup único: adicionar e editar -->
   <div id="form-popup" class="hidden">
     <div class="popup-content">
       <span id="close-form">✖</span>
-      <h2>Adicionar Aniversariante</h2>
+      <h2 id="form-titulo">Adicionar Aniversariante</h2>
       <input type="text" id="nome-input" placeholder="Nome completo">
       <input type="text" id="apelido-input" placeholder="Apelido">
       <input type="date" id="data-input">
@@ -69,21 +71,10 @@
         <option value="1">1 dia antes</option>
         <option value="0">Somente no dia</option>
       </select>
+      <div id="botoes-edicao" class="hidden">
+        <button id="excluir-btn">🗑️ Excluir</button>
+      </div>
       <button id="save-btn">Salvar</button>
-    </div>
-  </div>
-
-  <!-- Popup pessoa -->
-  <div id="popup" class="hidden">
-    <div class="popup-content">
-      <span id="close-popup">✖</span>
-      <h2 id="apelido"></h2>
-      <p id="nome"></p>
-      <p id="idade"></p>
-      <p id="grupo"></p>
-      <p id="faltam"></p>
-      <button id="edit-btn"><img src="icon-edit.png" alt="Editar"></button>
-      <button id="delete-btn"><img src="icon-delete.png" alt="Excluir"></button>
     </div>
   </div>
 </body>

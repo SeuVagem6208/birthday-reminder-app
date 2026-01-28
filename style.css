@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Schoolbell', 'Comic Sans MS', cursive;
+  font-family: 'Schoolbell', cursive;
   background-color: var(--bg);
   margin: 0;
   color: var(--text-dark);
@@ -33,9 +33,12 @@ header {
   background: var(--card);
   padding: 20px;
   overflow-y: auto;
+  z-index: 1000;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none !important;
+}
 
 #grupos-bar {
   display: flex;
@@ -49,6 +52,7 @@ header {
   padding: 5px 10px;
   background: var(--header);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .card {
@@ -56,17 +60,23 @@ header {
   margin: 5px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 #add-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: none;
+  background: var(--header);
   border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
-#form-popup, #popup {
+#form-popup {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -74,11 +84,61 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 }
 
 .popup-content {
+  position: relative;
   background: var(--bg);
   padding: 20px;
   border-radius: 10px;
   width: 300px;
+  text-align: center;
+}
+
+.popup-content h2, .popup-content p {
+  margin: 10px 0;
+}
+
+.popup-content button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background: var(--header);
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background: #aaa;
+}
+
+input, select {
+  font-family: 'Schoolbell', cursive;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 90%;
+}
+
+/* Botão X no topo direito */
+#close-form {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* Botões de edição dentro do popup */
+#botoes-edicao {
+  margin-top: 10px;
+}
+
+#excluir-btn {
+  background: #e28c6f;
+  color: white;
+}
+#excluir-btn:hover {
+  background: #c76b4f;
 }
